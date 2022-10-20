@@ -1,25 +1,23 @@
-import logo from './logo.svg';
-import './App.css';
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import GlobalStyle from "./Assets/styles/GlobalStyle";
 
-function App() {
+import LoginPage from "./Pages/LoginPage";
+import SignUpPage from "./Pages/SignUpPage";
+import HabitsPage from "./Pages/HabitsPage";
+import TodayPage from "./Pages/TodayPage";
+import HistoryPage from "./Pages/HistoryPage"
+
+export default function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    <BrowserRouter>
+      <GlobalStyle/>
+      <Routes>
+        <Route path="/" element={<LoginPage/>}/>
+        <Route path="/cadastro" element={<SignUpPage/>}/>
+        <Route path="/habitos" element={<HabitsPage/>}/>
+        <Route path="/hoje" element={<TodayPage/>}/>
+        <Route path="/historico" element={<HistoryPage/>}/>
+      </Routes>
+    </BrowserRouter>
+  )
 }
-
-export default App;
