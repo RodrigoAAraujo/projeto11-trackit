@@ -1,7 +1,7 @@
 
 export const LightBlue = "#52B6FF" //Used in interactions in general
 export const DarkBlue = "#126BA5" //Used in Section Title and header
-export const BackgroundGray = "#E5E5E5"
+export const BackgroundGray = "#F5F5F5"
 export const BackgroundGrayDisabled = "#F2F2F2"
 
 export const LittleIconGray = "#CFCFCF"

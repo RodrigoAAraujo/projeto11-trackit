@@ -29,6 +29,8 @@ export default function SignUpPage() {
             .then(res => { console.log(res) })
             .catch(err => { console.log(err) })
 
+            //DisableButtons
+
     }
 
     return (

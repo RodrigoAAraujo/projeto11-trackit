@@ -13,7 +13,26 @@ export default function LoginPage(){
     const [email, setEmail]= useState("")
     const [password, setPassword] = useState("")
     const navigate = useNavigate()
-    const {user, setUser}= useContext(UserContext)
+    const {setUser}= useContext(UserContext)
+
+    if(localStorage.getItem("user")){
+        console.log("entrei")
+        const URL = `${authLink}/login`
+
+        const data = JSON.parse(localStorage.getItem("user"))
+
+        const body =
+        {
+            email: data.email,
+	        password: data.password
+        }
+
+        axios.post(URL, body)
+            .then(res => {
+                setUser(res.data)
+                navigate("/habitos")})
+            .catch(err => {console.log(err)})
+    }
 
 
     function Login(e){
@@ -29,8 +48,11 @@ export default function LoginPage(){
         axios.post(URL, body)
             .then(res => {
                 setUser(res.data)
+                localStorage.setItem("user", JSON.stringify(res.data))
                 navigate("/habitos")})
             .catch(err => {console.log(err)})
+
+        //Disable Buttons
 
     }
 
