@@ -1,26 +1,37 @@
-import { useContext, useEffect, useState } from "react"
-import axios from "axios"
+//Methods
 
-import { habitsLink } from "../Constants/urls"
-import { UserContext } from "../API/user"
+import { useContext, useEffect, useState } from "react"
+import { useNavigate } from "react-router-dom"
+import axios from "axios"
 import styled from "styled-components"
-import Header from "../Components/Header"
-import Footer from "../Components/Footer"
-import { BackgroundGray, DarkBlue } from "../Constants/colors"
-import CreateHabit from "../Components/CreateHabit"
-import ListHabit from "../Components/ListHabit"
+
+//Logical Objects
 
 import { HabitProvider} from "../API/habitCreation"
-import { useNavigate } from "react-router-dom"
+import { UserContext } from "../API/user"
+import { ProgressProvider } from "../API/dailyProgress"
+
+
+//Constants
+
+import { BackgroundGray, DarkBlue, LetterBlack, White } from "../Constants/colors"
+import { habitsLink } from "../Constants/urls"
+
+//Physical Objects
+
+import Page from "../Assets/styles/Page"
+import CreateHabit from "../Components/CreateHabit"
+import ListHabit from "../Components/ListHabit"
+import Header from "../Components/Header"
+import Footer from "../Components/Footer"
 
 
 export default function HabitsPage(){
-    const {user, setUser} = useContext(UserContext)
-
     const [habits, setHabits] = useState([])
     const [habitsChange, sethabitsChange]= useState(false)
-
     const [newHabit, setNewHabit] = useState(false)
+
+    const {setUser} = useContext(UserContext)
 
     const navigate = useNavigate()
 
@@ -32,7 +43,7 @@ export default function HabitsPage(){
             axios.get(URL,{ headers: {Authorization: `Bearer ${newUserInfo.token}`}})
                 .then(res => {
                     setHabits(res.data)
-                    console.log(res.data)
+                    
                 })
                 .catch(err => {
                     console.log(err)
@@ -68,30 +79,33 @@ export default function HabitsPage(){
                 }
 
             </HabitsPageStyle>
-            <Footer/>
+            <ProgressProvider>
+                <Footer render={habitsChange}/>
+            </ProgressProvider>
         </Page>
     )
 }
 
-const Page = styled.body`
-    background-color: ${BackgroundGray};
-    main{
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        max-width: 900px;
-        margin: 70px auto;
-        padding: 30px 0px 50px;  
-    }
-`
 
 const HabitsPageStyle = styled.main`
+    background-color: ${BackgroundGray};
+
+    button{
+        color: ${White};
+    }
     header{
-        width: 90%;
+        width: 100%;
         display: flex;
         align-items: center;
         justify-content: space-between;
+        margin-bottom: 25px;
 
+        h2{
+            font-family: 'Lexend Deca', sans-serif;
+            font-size: 23px;
+            font-weight: 400;
+            color: ${DarkBlue};
+        }
         button{
             padding: 0px;
             width: 40px;
@@ -99,12 +113,12 @@ const HabitsPageStyle = styled.main`
             font-size: 27px;
             font-weight: 400;
         }
-        h2{
-            font-family: 'Lexend Deca', sans-serif;
-            font-size: 23px;
-            font-weight: 400;
-            color: ${DarkBlue};
-        }
     }
 
+    p{
+        font-family: 'Lexend Deca', sans-serif;
+        font-size: 18px;
+        font-weight: 400;
+        color: ${LetterBlack}
+    }
 `

@@ -1,22 +1,35 @@
+//Methods
 import { Link, useNavigate } from "react-router-dom"
-import styled from "styled-components"
 import axios from "axios"
-import { useState } from "react"
-import { useContext } from "react"
+import { useState, useContext } from "react"
 
-import { DarkBlue, LightBlue } from "../Constants/colors"
-import Logo from "../Assets/images/Logo.png"
-import { authLink } from "../Constants/urls"
+//Logical Objects
+
 import { UserContext } from "../API/user"
+
+//Constants
+
+import { authLink } from "../Constants/urls"
+import { White } from "../Constants/colors"
+
+//Physical Objects
+
+import Logo from "../Assets/images/Logo.png"
+import FormStyle from "../Assets/styles/Form"
+import { ThreeDots } from "react-loader-spinner"
+
+
 
 export default function LoginPage(){
     const [email, setEmail]= useState("")
     const [password, setPassword] = useState("")
-    const navigate = useNavigate()
+    const [disable,setDisable] = useState(false)
+
     const {setUser}= useContext(UserContext)
 
+    const navigate = useNavigate()
+
     if(localStorage.getItem("user")){
-        console.log("entrei")
         const URL = `${authLink}/login`
 
         const data = JSON.parse(localStorage.getItem("user"))
@@ -45,70 +58,36 @@ export default function LoginPage(){
 	        password: password
         }
 
+        setDisable(true)
+
         axios.post(URL, body)
             .then(res => {
                 setUser(res.data)
                 localStorage.setItem("user", JSON.stringify(res.data))
                 navigate("/habitos")})
-            .catch(err => {console.log(err)})
-
-        //Disable Buttons
-
+            .catch(err => {setDisable(false)})
     }
 
     return (
-        <LoginPageStyle>   
+        <FormStyle>   
             <img src={Logo}/>
             <form onSubmit={(e) => Login(e)}>
 
                 <input type="email" placeholder="email" name="email" required 
-                onChange={(e) => setEmail(e.target.value)} value={email}
+                onChange={(e) => setEmail(e.target.value)} value={email} disabled={disable}
                 />
 
                 <input type="password" placeholder="senha" name="senha" required 
-                onChange={(e) => setPassword(e.target.value)} value={password}
+                onChange={(e) => setPassword(e.target.value)} value={password} disabled={disable}
                 />
 
-                <button>Entrar</button>
+                <button disabled={disable}>
+                    {disable?
+                    <ThreeDots color={White}height="20" width="40" />:
+                    "Entrar"}
+                </button>
             </form>
             <Link to={"/cadastro"}>Não tem uma conta? Cadastre-se!</Link>
-        </LoginPageStyle>
+        </FormStyle>
     )
 }
-
-const LoginPageStyle = styled.main`
-    height: 100vh;
-    justify-content: center;
-    form{
-        display:  flex;
-        flex-direction: column;
-        align-items: center;
-        width: 90%;
-        max-width: 500px;
-
-        input, button{
-            margin: 6px 0px;
-        }
-        button{
-            font-family: 'Lexend Deca', sans-serif;
-            font-size: 20px;
-            font-weight: 400;
-            text-align: center;
-        }
-    }
-    a{
-        color:${LightBlue};
-        text-decoration: underline;     
-
-        font-family: 'Lexend Deca', sans-serif;
-        font-size: 16px;
-        font-weight: 400;
-        text-align: center;
-        margin: 25px 0px; 
-
-        :hover{
-            color: ${DarkBlue};
-            transition: 0.5s;
-        }
-    }
-`

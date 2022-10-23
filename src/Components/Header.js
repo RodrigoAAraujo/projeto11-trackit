@@ -2,15 +2,23 @@ import { UserContext } from "../API/user"
 import { useContext } from "react"
 import styled from "styled-components"
 import { DarkBlue, White } from "../Constants/colors"
+import { useNavigate } from "react-router-dom"
+
 
 export default function Header(){
     const {user} = useContext(UserContext)
+    const navigate = useNavigate()
+
+    function LogOut(){
+        localStorage.removeItem("user")
+        navigate("/")
+    }
 
     return(
         <HeaderStyle>
             <h1>TrackIt</h1>
 
-            <button></button>
+            <button onClick={() =>LogOut()}>Log Out</button>
             <img src={user.image}/>
         </HeaderStyle>
     )

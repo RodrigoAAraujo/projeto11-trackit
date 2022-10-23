@@ -60,7 +60,6 @@ const GlobalStyle = createGlobalStyle`
         outline: none;
         box-shadow: none;
         border: none;
-        color: ${White};
         background-color: ${LightBlue};
         width: 100%;
         border-radius: 5px;

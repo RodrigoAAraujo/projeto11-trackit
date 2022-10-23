@@ -1,10 +1,21 @@
-import styled from "styled-components"
-import Logo from "../Assets/images/Logo.png"
+//Methods
+
 import { Link } from "react-router-dom"
-import { DarkBlue, LightBlue } from "../Constants/colors"
 import axios from "axios"
 import { useState } from "react"
+
+//Constants
+
 import { authLink } from "../Constants/urls"
+import { White } from "../Constants/colors"
+
+//Physical Objects
+
+import { ThreeDots } from "react-loader-spinner"
+import FormStyle from "../Assets/styles/Form"
+import Logo from "../Assets/images/Logo.png"
+
+
 
 export default function SignUpPage() {
 
@@ -12,6 +23,8 @@ export default function SignUpPage() {
     const [password, setPassword] = useState("")
     const [name, setName] = useState("")
     const [image, setImage] = useState("")
+
+    const [disable, setDisable] = useState(false)
 
     function SignUp(e) {
         e.preventDefault()
@@ -25,75 +38,41 @@ export default function SignUpPage() {
             password: password
         }
 
+        setDisable(true)
+
         axios.post(URL, body)
             .then(res => { console.log(res) })
-            .catch(err => { console.log(err) })
-
-            //DisableButtons
-
+            .catch(err => { setDisable(false)})
     }
 
     return (
-        <SignUpStyle>
+        <FormStyle>
             <img src={Logo} />
             <form onSubmit={(e) => SignUp(e)}>
 
                 <input type="email" placeholder="email" name="email" required
-                    onChange={(e) => setEmail(e.target.value)} value={email}
+                    onChange={(e) => setEmail(e.target.value)} value={email} disabled={disable}
                 />
 
                 <input type="password" placeholder="senha" name="senha" required
-                    onChange={(e) => setPassword(e.target.value)} value={password}
+                    onChange={(e) => setPassword(e.target.value)} value={password} disabled={disable}
                 />
 
                 <input type="text" placeholder="nome" name="nome" required
-                    onChange={(e) => setName(e.target.value)} value={name}
+                    onChange={(e) => setName(e.target.value)} value={name} disabled={disable}
                 />
 
-                <input type="link" placeholder="foto" name="foto" required
-                    onChange={(e) => setImage(e.target.value)} value={image}
+                <input type="url" placeholder="foto" name="foto" required
+                    onChange={(e) => setImage(e.target.value)} value={image} disabled={disable}
                 />
 
-                <button>Entrar</button>
+                <button disabled={disable}>
+                    {disable?
+                    <ThreeDots color={White}height="20" width="40" />:
+                    "Cadastrar"}
+                </button>
             </form>
             <Link to={"/"}>Já tem uma conta? Faça Login</Link>
-        </SignUpStyle>
+        </FormStyle>
     )
 }
-
-const SignUpStyle = styled.main`
-    height: 100vh;
-    justify-content: center;
-    form{
-        display:  flex;
-        flex-direction: column;
-        align-items: center;
-        width: 90%;
-        max-width: 500px;
-
-        input, button{
-            margin: 6px 0px;
-        }
-        button{
-            font-family: 'Lexend Deca', sans-serif;
-            font-size: 20px;
-            font-weight: 400;
-            text-align: center;
-        }
-    }
-    a{
-        color:${LightBlue};
-        text-decoration: underline;     
-
-        font-family: 'Lexend Deca', sans-serif;
-        font-size: 16px;
-        font-weight: 400;
-        text-align: center;
-        margin: 25px 0px; 
-
-        :hover{
-            color: ${DarkBlue};
-            transition: 0.5s;
-        }
-    }
-`

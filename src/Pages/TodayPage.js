@@ -1,94 +1,116 @@
-import Header from "../Components/Header"
-import Footer from "../Components/Footer"
+//Methods
+
 import styled from "styled-components"
-import { BackgroundGray } from "../Constants/colors"
-import { habitsLink } from "../Constants/urls"
-import { useState, useEffect, useContext} from "react"
+import { useState, useEffect, useContext } from "react"
+import { useNavigate } from "react-router-dom"
 import dayjs from "dayjs"
 import axios from "axios"
+
+//Constants
+
+import { DarkBlue, White } from "../Constants/colors"
+import { habitsLink } from "../Constants/urls"
+
+
+//Logical Objects
+
 import { UserContext } from "../API/user"
+import { ProgressContext, ProgressProvider } from "../API/dailyProgress"
+
+//Physical Objects
+
+import Page from "../Assets/styles/Page"
 import TodayHabit from "../Components/TodayHabit"
-import { useNavigate } from "react-router-dom"
+import Header from "../Components/Header"
+import Footer from "../Components/Footer"
 
 
-export default function TodayPage(){
-    const week = ["domingo", "Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sábado"]
+export default function TodayPage() {
+    const week = ["Domingo", "Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sábado"]
     const day = new Date()
 
     const [todayHabits, setTodayHabits] = useState([])
-    const [habitsChange, sethabitsChange]= useState(false)
+    const [habitsChange, sethabitsChange] = useState(false)
 
-    const [percentage, setPercentage] = useState(0)
-
-    const {user, setUser} = useContext(UserContext)
+    const { setUser } = useContext(UserContext)
+    const {progress, setProgress} = useContext(ProgressContext)
 
     const navigate = useNavigate()
 
     useEffect(() => {
-        if(localStorage.getItem("user")){
+        if (localStorage.getItem("user")) {
             const newUserInfo = JSON.parse(localStorage.getItem("user"))
             setUser(newUserInfo)
             const URL = `${habitsLink}/today`
-            axios.get(URL,{ headers: {Authorization: `Bearer ${newUserInfo.token}`}})
+            axios.get(URL, { headers: { Authorization: `Bearer ${newUserInfo.token}` } })
                 .then(res => {
                     setTodayHabits(res.data)
-                    
-                    res.data.forEach((e) => {
-                        let counter = 0
-                        if(e.done){
-                            counter++  
-                            setPercentage(percentage + counter)
-                        }
-                    })
 
+                    let dones = 0
+                    let total = 0
+                    res.data.forEach((e) => {
+                        console.log(e)
+                        if (e.done) {
+                            dones++
+                        }
+                        total++
+                    })
+                    let value = dones / total * 100
+
+                    setProgress(value)
                 })
                 .catch(err => {
                     console.log(err)
                 })
             sethabitsChange(false)
-        }else{
+        } else {
             navigate("/")
         }
     }, [habitsChange])
 
     return (
         <Page>
-            <Header/>
+            <Header />
             <TodayPageStyle>
                 <header>
                     <h2>
-                      {week[day.getDay()]} , {dayjs().format("D/MM")}
+                        {week[day.getDay()]} , {dayjs().format("D/MM")}
                     </h2>
                     <h4>
-                        {percentage? `
-                         ${percentage/todayHabits.length*100}% dos hábitos concluídos`:
-                         "Nenhum hábito concluído ainda"
-                        }
+                        {progress}
                     </h4>
-
-                    {todayHabits?
-                     todayHabits.map((h) => <TodayHabit habit={h} render={sethabitsChange}/>) :
-                     <p>Você não tem nenhum hábito hoje</p>
-                    }
                 </header>
 
+                {todayHabits ?
+                    todayHabits.map((h) => <TodayHabit habit={h} render={sethabitsChange} />) :
+                    <p>Você não tem nenhum hábito hoje</p>
+                }
             </TodayPageStyle>
-            <Footer/>
+            <ProgressProvider>
+                <Footer render={habitsChange}/>
+            </ProgressProvider>
         </Page>
     )
 }
 
-const Page = styled.body`
-    background-color: ${BackgroundGray};
-    height: 100vh;
-    main{
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        max-width: 900px;
-        margin: 70px auto;
-        padding: 30px 0px;  
-    }
-`
+
 const TodayPageStyle = styled.main`
+
+    button{
+        color: ${White};
+    }
+
+    header{
+        width: 90%;
+        max-width: 600px;
+        margin-bottom: 10px;
+
+        h2{
+            font-family: 'Lexend Deca', sans-serif;
+            font-size: 23px;
+            font-weight: 400;
+            color: ${DarkBlue};
+            text-align: left;
+        }
+    }
 `
