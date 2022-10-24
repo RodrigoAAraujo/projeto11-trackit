@@ -75,20 +75,23 @@ export default function CreateHabit({ cancel, renderHabit }) {
             <form onSubmit={(e) => sendHabit(e)}>
 
                 {alert ?
-                    <input id="alert" maxLength={50} type="text" required placeholder="Escolha um dia"
+                    <input id="alert" maxLength={50} type="text" required placeholder="Escolha um dia" data-identifier="input-habit-name"
                         onChange={(e) => setHabit(e.target.value)} value={habit} disabled={disable}>
                     </input> :
 
-                    <input maxLength={50} type="text" required placeholder="nome do hábito"
+                    <input maxLength={50} type="text" required placeholder="nome do hábito" data-identifier="input-habit-name"
                         onChange={(e) => setHabit(e.target.value)} value={habit} disabled={disable}>
-                    </input>}
+                    </input>
+                }
 
                 <div>
                     {daysRender.map((d) => <DayButton day={d} daysSent={setDays}  disable={disable} daysChosen={days} />)}
                 </div>
+
                 <div className="actions">
-                    <button id="cancel" type="button" onClick={() => cancelAdding()} disabled={disable}> Cancelar</button>
-                    <button id="save" type="submit" disabled={disable}> 
+                    <button id="cancel" type="button" data-identifier="cancel-habit-create-btn" 
+                    onClick={() => cancelAdding()} disabled={disable}> Cancelar</button>
+                    <button id="save" type="submit" disabled={disable} data-identifier="save-habit-create-btn"> 
                         {disable?
                         <ThreeDots color={White}height="12" width="40" />:
                         "Salvar"}
@@ -129,7 +132,8 @@ function DayButton({ day, daysSent, daysChosen, disable}) {
     }
 
     return (
-        <DayButtonStyle day={day} type="button" disabled={disable} daysChosen={daysChosen} onClick={() => toggleDay()}>
+        <DayButtonStyle  data-identifier="week-day-btn" day={day} type="button" 
+        disabled={disable} daysChosen={daysChosen} onClick={() => toggleDay()}>
             {verifyDay()}
         </DayButtonStyle>
     )
@@ -137,11 +141,12 @@ function DayButton({ day, daysSent, daysChosen, disable}) {
 
 const CreateHabitStyle = styled.div`
     background-color: ${White};
-    padding: 18px;
+    padding: 12px 18px;
     border-radius: 5px;
     max-width: 600px;
     width: 100%;
     margin-bottom: 10px;
+
 
     form{
         display: flex;

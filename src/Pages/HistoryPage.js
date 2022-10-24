@@ -38,11 +38,4 @@ export default function HistoryPage(){
 
 const HistoryPageStyle = styled.main`
 
-    button{
-        background-color: none;
-    }
-
-
-
-
 `

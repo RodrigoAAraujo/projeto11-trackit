@@ -23,6 +23,7 @@ import Page from "../Assets/styles/Page"
 import TodayHabit from "../Components/TodayHabit"
 import Header from "../Components/Header"
 import Footer from "../Components/Footer"
+import HeaderInfo from "../Components/HeaderInfo"
 
 
 export default function TodayPage() {
@@ -33,8 +34,9 @@ export default function TodayPage() {
     const [habitsChange, sethabitsChange] = useState(false)
 
     const { setUser } = useContext(UserContext)
-    const {progress, setProgress} = useContext(ProgressContext)
+    const { progress, setProgress } = useContext(ProgressContext)
 
+    console.log(setProgress)
     const navigate = useNavigate()
 
     useEffect(() => {
@@ -70,47 +72,30 @@ export default function TodayPage() {
 
     return (
         <Page>
+
             <Header />
+
             <TodayPageStyle>
-                <header>
-                    <h2>
-                        {week[day.getDay()]} , {dayjs().format("D/MM")}
-                    </h2>
-                    <h4>
-                        {progress}
-                    </h4>
-                </header>
+                <HeaderInfo week={week} day={day} />
 
                 {todayHabits ?
                     todayHabits.map((h) => <TodayHabit habit={h} render={sethabitsChange} />) :
                     <p>Você não tem nenhum hábito hoje</p>
                 }
             </TodayPageStyle>
+
             <ProgressProvider>
-                <Footer render={habitsChange}/>
+                <Footer render={habitsChange} />
             </ProgressProvider>
         </Page>
     )
 }
 
 
+
 const TodayPageStyle = styled.main`
 
     button{
         color: ${White};
-    }
-
-    header{
-        width: 90%;
-        max-width: 600px;
-        margin-bottom: 10px;
-
-        h2{
-            font-family: 'Lexend Deca', sans-serif;
-            font-size: 23px;
-            font-weight: 400;
-            color: ${DarkBlue};
-            text-align: left;
-        }
     }
 `

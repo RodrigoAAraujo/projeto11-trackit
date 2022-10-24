@@ -62,7 +62,7 @@ export default function HabitsPage(){
             <HabitsPageStyle>
                 <header>
                     <h2>Meus Hábitos</h2>
-                    <button onClick={() =>setNewHabit(true)}>+</button>
+                    <button onClick={() =>setNewHabit(true)} data-identifier="create-habit-btn">+</button>
                 </header>
                 <HabitProvider>
                     {newHabit? 
@@ -71,7 +71,9 @@ export default function HabitsPage(){
                 </HabitProvider>
 
                 {habits.length === 0? 
-                <p>Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para começar a trackear!</p>:
+                <p data-identifier="no-habit-message">
+                    Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para começar a trackear!
+                </p>:
                 null}
                 {habits.length !== 0?
                 habits.map((h)=> <ListHabit habit={h} renderHabit={sethabitsChange}/>):
@@ -90,9 +92,6 @@ export default function HabitsPage(){
 const HabitsPageStyle = styled.main`
     background-color: ${BackgroundGray};
 
-    button{
-        color: ${White};
-    }
     header{
         width: 100%;
         display: flex;
@@ -112,6 +111,10 @@ const HabitsPageStyle = styled.main`
             font-family: 'Lexend Deca', sans-serif;
             font-size: 27px;
             font-weight: 400;
+        }
+
+        button{
+            color: ${White};
         }
     }
 

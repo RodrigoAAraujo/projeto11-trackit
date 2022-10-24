@@ -34,8 +34,8 @@ export default function TodayHabit({ habit, render }) {
 
             axios.post(URL, {}, { headers: { Authorization: `Bearer ${user.token}` } })
                 .then(() => {
-                    setDisable(false)
                     render(true)
+                    setDisable(false)
                 })
                 .catch(() => {
                     setDisable(false)

@@ -73,21 +73,21 @@ export default function LoginPage(){
             <img src={Logo}/>
             <form onSubmit={(e) => Login(e)}>
 
-                <input type="email" placeholder="email" name="email" required 
+                <input type="email" placeholder="email" name="email" required data-identifier="input-email"
                 onChange={(e) => setEmail(e.target.value)} value={email} disabled={disable}
                 />
 
-                <input type="password" placeholder="senha" name="senha" required 
+                <input type="password" placeholder="senha" name="senha" required data-identifier="input-password"
                 onChange={(e) => setPassword(e.target.value)} value={password} disabled={disable}
                 />
 
-                <button disabled={disable}>
+                <button disabled={disable} data-identifier="login-btn">
                     {disable?
                     <ThreeDots color={White}height="20" width="40" />:
                     "Entrar"}
                 </button>
             </form>
-            <Link to={"/cadastro"}>Não tem uma conta? Cadastre-se!</Link>
+            <Link to={"/cadastro"} data-identifier="sign-up-action">Não tem uma conta? Cadastre-se!</Link>
         </FormStyle>
     )
 }

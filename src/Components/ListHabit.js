@@ -40,13 +40,13 @@ export default function ListHabit({ habit, renderHabit }) {
     return (
         <ListHabitStyle>
             <div id="actions">
-                <h3>{name}</h3>
-                <button disabled={disable} onClick={() => deleteHabit()}>
+                <h3 data-identifier="habit-name">{name}</h3>
+                <ButtonDelete disabled={disable} data-identifier="delete-habit-btn" onClick={() => deleteHabit()}>
                     {disable ?
-                    <ThreeDots color={LightBlue} height="12" width="40" /> :
-                    <img src={trash} />}
+                        <ThreeDots color={LightBlue} height="12" width="40" /> :
+                        <img src={trash} />}
 
-                </button>
+                </ButtonDelete>
 
             </div>
             <div>
@@ -94,6 +94,7 @@ const ListHabitStyle = styled.div`
     max-width: 600px;
     width: 100%;
 
+
     #actions{
         display: flex;
         align-items: center;
@@ -106,33 +107,32 @@ const ListHabitStyle = styled.div`
             font-weight: 400;
             color:${LetterBlack};
         }
-
-        button{
-            background-color: ${White};
-            width: 25px;
-            height: 25px;
-            border-radius: 50%;
-            padding: 4px;
-            
-            display: flex;
-            align-items: center;
-            justify-content: center;
-
-
-
-            :hover{
-                transition: 0.3s;
-                background-color: ${LightBlue};
-            }
-
-            img{
-                width: 17px;
-                cursor: pointer;
-            }
-        }
-
     }
 
+`
+
+const ButtonDelete = styled.button`
+    background-color: ${ White };
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    padding: 4px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+
+
+    &:hover{
+        transition: 0.3s;
+        background-color: ${ (props) => props.disabled ? null : `${LightBlue}` };
+    }
+
+    img{
+        width: 17px;
+        cursor: pointer;
+    }
 `
 
 const DayButtonStyle = styled.button`

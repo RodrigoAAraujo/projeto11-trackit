@@ -50,19 +50,19 @@ export default function SignUpPage() {
             <img src={Logo} />
             <form onSubmit={(e) => SignUp(e)}>
 
-                <input type="email" placeholder="email" name="email" required
+                <input type="email" placeholder="email" name="email" required data-identifier="input-email"
                     onChange={(e) => setEmail(e.target.value)} value={email} disabled={disable}
                 />
 
-                <input type="password" placeholder="senha" name="senha" required
+                <input type="password" placeholder="senha" name="senha" required data-identifier="input-password"
                     onChange={(e) => setPassword(e.target.value)} value={password} disabled={disable}
                 />
 
-                <input type="text" placeholder="nome" name="nome" required
+                <input type="text" placeholder="nome" name="nome" required data-identifier="input-name"
                     onChange={(e) => setName(e.target.value)} value={name} disabled={disable}
                 />
 
-                <input type="url" placeholder="foto" name="foto" required
+                <input type="url" placeholder="foto" name="foto" required data-identifier="input-photo"
                     onChange={(e) => setImage(e.target.value)} value={image} disabled={disable}
                 />
 
@@ -72,7 +72,7 @@ export default function SignUpPage() {
                     "Cadastrar"}
                 </button>
             </form>
-            <Link to={"/"}>Já tem uma conta? Faça Login</Link>
+            <Link to={"/"} data-identifier="back-to-login-action">Já tem uma conta? Faça Login</Link>
         </FormStyle>
     )
 }
