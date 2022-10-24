@@ -23,14 +23,6 @@ const HeaderInfoStyle = styled.header`
     max-width: 600px;
     margin-bottom: 10px;
 
-    h2{
-        font-family: 'Lexend Deca', sans-serif;
-        font-size: 23px;
-        font-weight: 400;
-        color: ${DarkBlue};
-        text-align: left;
-        margin-bottom: 8px;
-    }
     h4{
         margin-bottom: 10px;
         font-family: 'Lexend Deca', sans-serif;

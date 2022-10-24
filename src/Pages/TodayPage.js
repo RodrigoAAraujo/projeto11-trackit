@@ -3,7 +3,6 @@
 import styled from "styled-components"
 import { useState, useEffect, useContext } from "react"
 import { useNavigate } from "react-router-dom"
-import dayjs from "dayjs"
 import axios from "axios"
 
 //Constants
@@ -93,7 +92,6 @@ export default function TodayPage() {
 
 
 const TodayPageStyle = styled.main`
-
     button{
         color: ${White};
     }

@@ -115,12 +115,6 @@ const HabitsPageStyle = styled.main`
         justify-content: space-between;
         margin-bottom: 25px;
 
-        h2{
-            font-family: 'Lexend Deca', sans-serif;
-            font-size: 23px;
-            font-weight: 400;
-            color: ${DarkBlue};
-        }
         button{
             padding: 0px;
             width: 40px;

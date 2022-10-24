@@ -1,33 +1,37 @@
-import Header from "../Components/Header"
-import Footer from "../Components/Footer"
-import Page from "../Assets/styles/Page"
-
+//Methods
 import { ProgressProvider } from "../API/dailyProgress"
 import styled from "styled-components"
 
-import { Calendar } from "react-calendar"
+//Constants
+
+import { LetterBlack } from "../Constants/colors"
+
+//LOgical Objects
+
 import 'react-calendar/dist/Calendar.css';
 
-import { useEffect, useState } from "react"
+//Physical Objects
+
+import Header from "../Components/Header"
+import Footer from "../Components/Footer"
+import Page from "../Assets/styles/Page"
+import { Calendar } from "react-calendar"
 
 export default function HistoryPage(){
-    const [loading, setLoading] = useState(false)
-    const [history, setHistory] = useState(null)
-    
-
-    function checkDay(e){
-        console.log(e)
-    }
-
-    useEffect(()=>{
-
-    }, [])
-
     return (
         <Page>
             <Header/>
             <HistoryPageStyle>
-                <Calendar onClickDay={(e)=> checkDay(e)} locale="pt-br"/>
+                <h2>
+                    Histórico
+                </h2>
+
+                <Calendar locale="pt-br"/>
+
+                <p>
+                Em breve você poderá ver o histórico dos seus hábitos aqui!
+                </p>
+
             </HistoryPageStyle>
             <ProgressProvider>
                 <Footer/>
@@ -37,5 +41,19 @@ export default function HistoryPage(){
 }
 
 const HistoryPageStyle = styled.main`
+    h2{
+        max-width: 400px;
+        margin-bottom: 20px;
+    }
 
+    p{
+        margin-top: 20px;
+        font-family: 'Lexend Deca', sans-serif;
+        font-size: 18px;
+        font-weight: 400;
+        line-height: 22px;
+        letter-spacing: 0em;
+        text-align: left;
+        color: ${LetterBlack};
+    }
 `
