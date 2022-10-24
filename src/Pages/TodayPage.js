@@ -15,7 +15,7 @@ import { habitsLink } from "../Constants/urls"
 //Logical Objects
 
 import { UserContext } from "../API/user"
-import { ProgressContext, ProgressProvider } from "../API/dailyProgress"
+import { ProgressProvider } from "../API/dailyProgress"
 
 //Physical Objects
 
@@ -24,6 +24,7 @@ import TodayHabit from "../Components/TodayHabit"
 import Header from "../Components/Header"
 import Footer from "../Components/Footer"
 import HeaderInfo from "../Components/HeaderInfo"
+import LoadingIcon from "../Components/LoadingIcon"
 
 
 export default function TodayPage() {
@@ -34,9 +35,9 @@ export default function TodayPage() {
     const [habitsChange, sethabitsChange] = useState(false)
 
     const { setUser } = useContext(UserContext)
-    const { progress, setProgress } = useContext(ProgressContext)
 
-    console.log(setProgress)
+    const [loading, setLoading] = useState(true)
+
     const navigate = useNavigate()
 
     useEffect(() => {
@@ -47,19 +48,7 @@ export default function TodayPage() {
             axios.get(URL, { headers: { Authorization: `Bearer ${newUserInfo.token}` } })
                 .then(res => {
                     setTodayHabits(res.data)
-
-                    let dones = 0
-                    let total = 0
-                    res.data.forEach((e) => {
-                        console.log(e)
-                        if (e.done) {
-                            dones++
-                        }
-                        total++
-                    })
-                    let value = dones / total * 100
-
-                    setProgress(value)
+                    setLoading(false)
                 })
                 .catch(err => {
                     console.log(err)
@@ -72,19 +61,22 @@ export default function TodayPage() {
 
     return (
         <Page>
-
-            <Header />
-
-            <TodayPageStyle>
-                <HeaderInfo week={week} day={day} />
-
-                {todayHabits ?
-                    todayHabits.map((h) => <TodayHabit habit={h} render={sethabitsChange} />) :
-                    <p>Você não tem nenhum hábito hoje</p>
-                }
-            </TodayPageStyle>
-
             <ProgressProvider>
+                <Header />
+
+                {loading?
+                    <LoadingIcon/>:
+
+                    <TodayPageStyle>
+                        <HeaderInfo week={week} day={day} />
+
+                        {todayHabits ?
+                            todayHabits.map((h) => <TodayHabit habit={h} render={sethabitsChange} />) :
+                            <p>Você não tem nenhum hábito hoje</p>
+                        }
+                    </TodayPageStyle>
+                }
+
                 <Footer render={habitsChange} />
             </ProgressProvider>
         </Page>

@@ -39,8 +39,11 @@ export default function Footer({ render }) {
 
                     let value = dones / total * 100
 
-
-                    setProgress(value)
+                    if(total === 0){
+                        setProgress(0)
+                    }else{
+                        setProgress(value)
+                    }
                 })
                 .catch(err => {
 
@@ -52,7 +55,7 @@ export default function Footer({ render }) {
 
         <FooterStyle>
 
-            <Link to="/habitos">Hábitos</Link>
+            <Link to="/habitos" data-identifier="habit-page-action">Hábitos</Link>
             <div>
                 <CircularProgressbar
                     value={progress}
@@ -65,7 +68,7 @@ export default function Footer({ render }) {
                     })}
                 />
             </div>
-            <Link to="/historico">Histórico</Link>
+            <Link to="/historico" data-identifier="historic-page-action">Histórico</Link>
 
         </FooterStyle>
 

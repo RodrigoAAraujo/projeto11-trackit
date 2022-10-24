@@ -78,7 +78,6 @@ function DayButton({ day, daysChosen }) {
         }
     }
 
-
     return (
         <DayButtonStyle day={day} daysChosen={daysChosen}>
             {verifyDay()}

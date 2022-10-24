@@ -24,6 +24,7 @@ import CreateHabit from "../Components/CreateHabit"
 import ListHabit from "../Components/ListHabit"
 import Header from "../Components/Header"
 import Footer from "../Components/Footer"
+import LoadingIcon from "../Components/LoadingIcon"
 
 
 export default function HabitsPage(){
@@ -32,6 +33,8 @@ export default function HabitsPage(){
     const [newHabit, setNewHabit] = useState(false)
 
     const {setUser} = useContext(UserContext)
+
+    const[loading, setLoading]= useState(true)
 
     const navigate = useNavigate()
 
@@ -43,7 +46,7 @@ export default function HabitsPage(){
             axios.get(URL,{ headers: {Authorization: `Bearer ${newUserInfo.token}`}})
                 .then(res => {
                     setHabits(res.data)
-                    
+                    setLoading(false)
                 })
                 .catch(err => {
                     console.log(err)
@@ -59,28 +62,34 @@ export default function HabitsPage(){
     return (
         <Page>
             <Header/>
-            <HabitsPageStyle>
-                <header>
-                    <h2>Meus Hábitos</h2>
-                    <button onClick={() =>setNewHabit(true)} data-identifier="create-habit-btn">+</button>
-                </header>
-                <HabitProvider>
-                    {newHabit? 
-                        <CreateHabit cancel={setNewHabit}  renderHabit={sethabitsChange}/>
-                    : null}
-                </HabitProvider>
 
-                {habits.length === 0? 
-                <p data-identifier="no-habit-message">
-                    Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para começar a trackear!
-                </p>:
-                null}
-                {habits.length !== 0?
-                habits.map((h)=> <ListHabit habit={h} renderHabit={sethabitsChange}/>):
-                null
-                }
+            {loading?
+                <LoadingIcon/>:
 
-            </HabitsPageStyle>
+                <HabitsPageStyle>
+                    <header>
+                        <h2>Meus Hábitos</h2>
+                        <button onClick={() =>setNewHabit(true)} data-identifier="create-habit-btn">+</button>
+                    </header>
+                    <HabitProvider>
+                        {newHabit? 
+                            <CreateHabit cancel={setNewHabit}  renderHabit={sethabitsChange}/>
+                        : null}
+                    </HabitProvider>
+
+                    {habits.length === 0? 
+                    <p data-identifier="no-habit-message">
+                        Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para começar a trackear!
+                    </p>:
+                    null}
+                    {habits.length !== 0?
+                    habits.map((h)=> <ListHabit habit={h} renderHabit={sethabitsChange}/>):
+                    null
+                    }
+
+                </HabitsPageStyle>
+            }
+
             <ProgressProvider>
                 <Footer render={habitsChange}/>
             </ProgressProvider>

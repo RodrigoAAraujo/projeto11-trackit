@@ -14,5 +14,6 @@ export const StrongRed = "#E75766"
 export const LetterGray = "#9B9B9B"
 export const LetterGrayDisabled = "#AFAFAF"
 export const LetterBlack = "#666666"
+export const LetterGrayNothing = "#BABABA"
 
 export const White = "#FFFFFF"

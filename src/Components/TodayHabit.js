@@ -60,12 +60,12 @@ export default function TodayHabit({ habit, render }) {
 
     return (
         <TodayHabitStyle done={done} currentSequence={currentSequence} highestSequence={highestSequence}>
-            <div>
+            <div data-identifier="today-infos">
                 <h2>{name}</h2>
                 <p>Sequência atual: <span id="done">{currentSequence} dias </span> </p>
                 <p>Seu recorde: <span id="equal">{highestSequence} dias</span></p>
             </div>
-            <button disabled={disable} onClick={() => toggleCheck()}>
+            <button disabled={disable} onClick={() => toggleCheck()} data-identifier="done-habit-btn">
 
                 {disable ?
                     <RotatingSquare color={White} height="60" width="60" /> :

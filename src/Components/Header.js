@@ -30,7 +30,7 @@ export default function Header(){
 
             
             <div>
-                <img src={user.image} onClick={() => toggleOn()}/>
+                <img src={user.image} data-identifier="avatar" onClick={() => toggleOn()}/>
                 <MenuUser on={on}>
                     <button onClick={() =>LogOut()}>Log Out</button>
                 </MenuUser>
