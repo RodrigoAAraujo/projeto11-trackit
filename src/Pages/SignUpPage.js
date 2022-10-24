@@ -14,6 +14,7 @@ import { White } from "../Constants/colors"
 import { ThreeDots } from "react-loader-spinner"
 import FormStyle from "../Assets/styles/Form"
 import Logo from "../Assets/images/Logo.png"
+import ErrorMessage from "../Components/ErrorMessage"
 
 
 
@@ -23,7 +24,8 @@ export default function SignUpPage() {
     const [password, setPassword] = useState("")
     const [name, setName] = useState("")
     const [image, setImage] = useState("")
-
+    const [error, SetError] = useState(false)
+    const [errorText, setErrorText] = useState("")
     const [disable, setDisable] = useState(false)
 
     function SignUp(e) {
@@ -42,7 +44,11 @@ export default function SignUpPage() {
 
         axios.post(URL, body)
             .then(res => { console.log(res) })
-            .catch(err => { setDisable(false)})
+            .catch(err => { 
+                setDisable(false)
+                setErrorText(err.response.data.message)
+                SetError(true)
+            })
     }
 
     return (
@@ -73,6 +79,9 @@ export default function SignUpPage() {
                 </button>
             </form>
             <Link to={"/"} data-identifier="back-to-login-action">Já tem uma conta? Faça Login</Link>
+
+            {error? <ErrorMessage message={errorText} appear={SetError}/>: null}
+
         </FormStyle>
     )
 }

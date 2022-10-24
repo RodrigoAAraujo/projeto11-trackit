@@ -25,16 +25,19 @@ import ListHabit from "../Components/ListHabit"
 import Header from "../Components/Header"
 import Footer from "../Components/Footer"
 import LoadingIcon from "../Components/LoadingIcon"
+import ErrorMessage from "../Components/ErrorMessage"
 
 
 export default function HabitsPage(){
     const [habits, setHabits] = useState([])
     const [habitsChange, sethabitsChange]= useState(false)
     const [newHabit, setNewHabit] = useState(false)
+    const [error, SetError] = useState(false)
+    const [errorText, setErrorText] = useState("")
+    const[loading, setLoading]= useState(true)
 
     const {setUser} = useContext(UserContext)
 
-    const[loading, setLoading]= useState(true)
 
     const navigate = useNavigate()
 
@@ -49,7 +52,8 @@ export default function HabitsPage(){
                     setLoading(false)
                 })
                 .catch(err => {
-                    console.log(err)
+                    setErrorText(err.response.data.message)
+                    SetError(true)
                 })
 
             sethabitsChange(false)
@@ -93,6 +97,9 @@ export default function HabitsPage(){
             <ProgressProvider>
                 <Footer render={habitsChange}/>
             </ProgressProvider>
+
+            {error? <ErrorMessage message={errorText} appear={SetError}/>: null}
+
         </Page>
     )
 }

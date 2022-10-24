@@ -25,6 +25,7 @@ import Header from "../Components/Header"
 import Footer from "../Components/Footer"
 import HeaderInfo from "../Components/HeaderInfo"
 import LoadingIcon from "../Components/LoadingIcon"
+import ErrorMessage from "../Components/ErrorMessage"
 
 
 export default function TodayPage() {
@@ -33,6 +34,8 @@ export default function TodayPage() {
 
     const [todayHabits, setTodayHabits] = useState([])
     const [habitsChange, sethabitsChange] = useState(false)
+    const [error, SetError] = useState(false)
+    const [errorText, setErrorText] = useState("")
 
     const { setUser } = useContext(UserContext)
 
@@ -51,7 +54,8 @@ export default function TodayPage() {
                     setLoading(false)
                 })
                 .catch(err => {
-                    console.log(err)
+                    setErrorText(err.response.data.message)
+                    SetError(true)
                 })
             sethabitsChange(false)
         } else {
@@ -79,6 +83,9 @@ export default function TodayPage() {
 
                 <Footer render={habitsChange} />
             </ProgressProvider>
+
+            {error? <ErrorMessage message={errorText} appear={SetError}/>: null}
+
         </Page>
     )
 }

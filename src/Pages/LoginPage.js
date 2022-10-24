@@ -17,6 +17,7 @@ import { White } from "../Constants/colors"
 import Logo from "../Assets/images/Logo.png"
 import FormStyle from "../Assets/styles/Form"
 import { ThreeDots } from "react-loader-spinner"
+import ErrorMessage from "../Components/ErrorMessage"
 
 
 
@@ -24,6 +25,8 @@ export default function LoginPage(){
     const [email, setEmail]= useState("")
     const [password, setPassword] = useState("")
     const [disable,setDisable] = useState(false)
+    const [error, SetError] = useState(false)
+    const [errorText, setErrorText] = useState("")
 
     const {setUser}= useContext(UserContext)
 
@@ -44,7 +47,10 @@ export default function LoginPage(){
             .then(res => {
                 setUser(res.data)
                 navigate("/habitos")})
-            .catch(err => {console.log(err)})
+            .catch(err => {
+                setErrorText(err.response.data)
+                SetError(true)
+            })
     }
 
 
@@ -65,7 +71,11 @@ export default function LoginPage(){
                 setUser(res.data)
                 localStorage.setItem("user", JSON.stringify(res.data))
                 navigate("/habitos")})
-            .catch(err => {setDisable(false)})
+            .catch(err => {
+                setDisable(false)
+                setErrorText(err.response.data.message)
+                SetError(true)
+            })
     }
 
     return (
@@ -88,6 +98,9 @@ export default function LoginPage(){
                 </button>
             </form>
             <Link to={"/cadastro"} data-identifier="sign-up-action">Não tem uma conta? Cadastre-se!</Link>
+
+            {error? <ErrorMessage message={errorText} appear={SetError}/>: null}
+
         </FormStyle>
     )
 }
